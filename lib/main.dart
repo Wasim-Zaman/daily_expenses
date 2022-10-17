@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 
 import './widgets/transaction_list.dart';
 import './widgets/new_transaction.dart';
@@ -23,12 +23,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeData themeData(
-      MaterialColor primary_color,
-      MaterialColor accent_color,
+      MaterialColor primaryColor,
+      MaterialColor accentColor,
     ) {
       return ThemeData(
-        primarySwatch: primary_color,
-        accentColor: accent_color,
+        primarySwatch: primaryColor,
+        accentColor: accentColor,
         fontFamily: 'Quicksand',
         appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
@@ -158,9 +158,7 @@ class _MyHomeState extends State<MyHome> {
     showModalBottomSheet(
       context: context,
       builder: (_) {
-        return Container(
-            // height: MediaQuery.of(context).size.height * 0.7,
-            child: NewTransaction(addTransaction: _addNewTransaction));
+        return NewTransaction(addTransaction: _addNewTransaction);
       },
       isScrollControlled: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
