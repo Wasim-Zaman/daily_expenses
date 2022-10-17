@@ -22,17 +22,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Application',
-      home: const MyHome(),
-      darkTheme: ThemeData(
-        primaryColor: Colors.black,
-        accentColor: Colors.green,
-      ),
-      theme: ThemeData(
-        primarySwatch: Colors.cyan,
-        accentColor: Colors.pink,
+    ThemeData themeData(
+      MaterialColor primary_color,
+      MaterialColor accent_color,
+    ) {
+      return ThemeData(
+        primarySwatch: primary_color,
+        accentColor: accent_color,
         fontFamily: 'Quicksand',
         appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
@@ -53,7 +49,15 @@ class MyApp extends StatelessWidget {
             fontFamily: 'OpenSans',
           ),
         ),
-      ),
+      );
+    }
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Application',
+      home: const MyHome(),
+      darkTheme: themeData(Colors.blueGrey, Colors.deepPurple),
+      theme: themeData(Colors.purple, Colors.yellow),
     );
   }
 }
