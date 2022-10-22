@@ -7,6 +7,7 @@ import './widgets/transaction_list.dart';
 import './widgets/new_transaction.dart';
 import './widgets/chart.dart';
 import './model/transaction.dart';
+import './model/theme_data.dart';
 
 void main() {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -22,42 +23,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData themeData(
-      MaterialColor primaryColor,
-      MaterialColor accentColor,
-    ) {
-      return ThemeData(
-        primarySwatch: primaryColor,
-        accentColor: accentColor,
-        fontFamily: 'Quicksand',
-        appBarTheme: const AppBarTheme(
-          titleTextStyle: TextStyle(
-              fontFamily: 'OpenSans',
-              fontSize: 25,
-              fontWeight: FontWeight.bold),
-        ),
-        textTheme: const TextTheme(
-          headline6: TextStyle(
-            fontFamily: 'OpenSans',
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            // color: Theme.of(context).primaryColorLight,
-          ),
-          button: TextStyle(
-            color: Colors.white,
-            // fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
-      );
-    }
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Application',
       home: const MyHome(),
       darkTheme: themeData(Colors.blueGrey, Colors.deepPurple),
-      theme: themeData(Colors.purple, Colors.yellow),
+      theme: themeData(Colors.purple, Colors.lightBlue),
     );
   }
 }
@@ -70,6 +41,7 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
+  // List of item bought
   final List<Transaction> _transactions = [
     Transaction(
       id: DateTime.now().toString(),
@@ -129,8 +101,11 @@ class _MyHomeState extends State<MyHome> {
 
   bool _showBar = false;
 
-  // This getter actually returns the List of transactions but those within the
-  // last week
+  /*
+  This getter actually returns the List of transactions but those within the
+  last week
+  */
+
   List<Transaction> get _lastWeekTransactions {
     return _transactions.where((tx) {
       return tx.date.isAfter(
@@ -139,7 +114,7 @@ class _MyHomeState extends State<MyHome> {
     }).toList();
   }
 
-  // Unique ID
+  // To add new transaction into the list of transactions
   void _addNewTransaction(String title, double amount, DateTime datePicked) {
     final newTransaction = Transaction(
       id: DateTime.now().toString(), //id.toString(),
@@ -154,6 +129,7 @@ class _MyHomeState extends State<MyHome> {
     });
   }
 
+  // When clicking the add button using floating action button or app bar button
   void _startAddingTransactions(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -165,18 +141,42 @@ class _MyHomeState extends State<MyHome> {
     );
   }
 
+  // Dismissing the listed transaction into the screen
   void deleteTransaction(String id) {
     setState(() {
       _transactions.removeWhere((element) => element.id == id);
     });
   }
 
+  // Clicking the update transaction button at the end of the card (transactin)
   void updateTransaction(
-      int index, String title, double amount, DateTime date) {
+    Transaction transaction,
+    String title,
+    double amount,
+    DateTime date,
+  ) {
+    int i = _transactions.indexWhere((element) {
+      return element.id == transaction.id;
+    });
     setState(() {
-      _transactions[index].title = title;
-      _transactions[index].amount = amount;
-      _transactions[index].date = date;
+      transaction.title = title;
+      transaction.amount = amount;
+      transaction.date = date;
+    });
+  }
+
+  // Choosing a date for a specific transaction
+  void _currentDatePicker(DateTime selectedDate) {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2014),
+    ).then((value) {
+      if (value == null) {
+        return;
+      }
+      selectedDate = value;
     });
   }
 
@@ -210,8 +210,9 @@ class _MyHomeState extends State<MyHome> {
           0.7,
       child: TransactionList(
         transactions: _transactions,
-        deleteTx: deleteTransaction,
-        updateTx: updateTransaction,
+        deleteTransaction: deleteTransaction,
+        updateTransaction: updateTransaction,
+        datePicker: _currentDatePicker,
       ),
     );
 
