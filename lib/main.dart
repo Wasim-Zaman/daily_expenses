@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 
@@ -182,10 +180,11 @@ class _MyHomeState extends State<MyHome> {
 
   @override
   Widget build(BuildContext context) {
-    // in order to manage portrait and landscape mode, we define a variable
-    // in order to check if we are in landscape mode or not,
-    // so that we can make separate display for both modes
-
+    /*
+     in order to manage portrait and landscape mode, we define a variable
+     in order to check if we are in landscape mode or not,
+     so that we can make separate display for both modes
+    */
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
 
@@ -216,7 +215,9 @@ class _MyHomeState extends State<MyHome> {
       ),
     );
 
-    Widget showBars(double multiplicationFactor) {
+    // Different sized chart for protrait and landscape mode
+
+    Widget showChart(double multiplicationFactor) {
       return SizedBox(
         // height: (MediaQuery.of(context).size.height -
         //         MediaQuery.of(context).padding.top -
@@ -229,6 +230,33 @@ class _MyHomeState extends State<MyHome> {
 
         child: Chart(lastWeekTransactions: _lastWeekTransactions),
       );
+    }
+
+    List<Widget> _buildLandscapeTree() {
+      return [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Show Bars'),
+            Switch.adaptive(
+              value: _showBar,
+              onChanged: (value) {
+                setState(() {
+                  _showBar = value;
+                });
+              },
+            )
+          ],
+        ),
+        _showBar ? showChart(0.8) : txList
+      ];
+    }
+
+    List<Widget> _buildPortraitTree() {
+      return [
+        showChart(0.3),
+        txList,
+      ];
     }
 
     return Scaffold(
@@ -244,24 +272,11 @@ class _MyHomeState extends State<MyHome> {
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Show Bars'),
-                  Switch.adaptive(
-                    value: _showBar,
-                    onChanged: (value) {
-                      setState(() {
-                        _showBar = value;
-                      });
-                    },
-                  )
-                ],
-              ),
-            if (!isLandscape) showBars(0.3),
-            if (!isLandscape) txList,
-            if (isLandscape) _showBar ? showBars(0.8) : txList,
+            // If the device is in landscape mode...
+            if (isLandscape) ..._buildLandscapeTree(),
+
+            // If the device is in portrait mode....
+            if (!isLandscape) ..._buildPortraitTree(),
           ],
         ),
       ),
