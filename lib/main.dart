@@ -120,7 +120,6 @@ class _MyHomeState extends State<MyHome> {
       amount: amount,
       date: datePicked,
     );
-    // id += 1;
 
     setState(() {
       _transactions.add(newTransaction);
@@ -188,6 +187,8 @@ class _MyHomeState extends State<MyHome> {
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
 
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+
     /*Assigning the app bar into the variable so that we can subtract its size
       from the total size of the screen
     */
@@ -203,8 +204,8 @@ class _MyHomeState extends State<MyHome> {
     );
 
     final txList = SizedBox(
-      height: (MediaQuery.of(context).size.height -
-              MediaQuery.of(context).padding.top -
+      height: (mediaQuery.size.height -
+              mediaQuery.padding.top -
               appBar.preferredSize.height) *
           0.7,
       child: TransactionList(
@@ -223,8 +224,8 @@ class _MyHomeState extends State<MyHome> {
         //         MediaQuery.of(context).padding.top -
         //         appBar.preferredSize.height) *
         //     0.3,
-        height: (MediaQuery.of(context).size.height -
-                MediaQuery.of(context).padding.top -
+        height: (mediaQuery.size.height -
+                mediaQuery.padding.top -
                 appBar.preferredSize.height) *
             multiplicationFactor,
 
