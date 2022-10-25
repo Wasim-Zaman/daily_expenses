@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+
 // import 'package:flutter/services.dart';
 
 import './widgets/transaction_list.dart';
@@ -130,7 +133,7 @@ class _MyHomeState extends State<MyHome> {
   void _startAddingTransactions(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      builder: (_) {
+      builder: (context) {
         return NewTransaction(addTransaction: _addNewTransaction);
       },
       isScrollControlled: true,
@@ -195,6 +198,8 @@ class _MyHomeState extends State<MyHome> {
     var appBar = AppBar(
       title: const Text('Daily Expenses'),
       backgroundColor: Theme.of(context).primaryColor,
+      centerTitle: true,
+      shadowColor: Colors.black,
       actions: [
         IconButton(
           onPressed: () => _startAddingTransactions(context),
@@ -260,8 +265,78 @@ class _MyHomeState extends State<MyHome> {
       ];
     }
 
+    // create some values
+    Color pickerColor = Color(0xff443a49);
+    Color currentColor = Color(0xff443a49);
+
+// ValueChanged<Color> callback
+    void changeColor(Color color) {
+      setState(() => pickerColor = color);
+    }
+
     return Scaffold(
       appBar: appBar,
+      drawer: Drawer(
+        // backgroundColor: Theme.of(context).primaryColor,
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: Container(
+                      height: 80.0,
+                      width: 80.0,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('Assets/Images/myPic.png'),
+                          fit: BoxFit.fill,
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    trailing: FittedBox(
+                      child: Column(
+                        children: <Widget>[
+                          QrImage(
+                            data:
+                                'https://github.com/Wasim-Zaman/daily_expenses',
+                            version: QrVersions.auto,
+                            size: 80,
+                            gapless: false,
+                          ),
+                          const Text(
+                            "Scan Me",
+                            style: TextStyle(fontSize: 13),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  const ListTile(
+                    title: Text(
+                      "Wasim Zaman",
+                      style: TextStyle(
+                        fontSize: 30,
+                      ),
+                    ),
+                    subtitle: Text("wasimxaman13@gmail.com"),
+                  )
+                ],
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.color_lens),
+              title: const Text('Select Theme'),
+              onTap: () {},
+              selected: true,
+            ),
+          ],
+        ),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () => _startAddingTransactions(context),
