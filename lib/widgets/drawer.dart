@@ -59,12 +59,12 @@ class MyDrawer extends StatelessWidget {
               ],
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.color_lens),
-            title: const Text('Select Theme'),
-            onTap: () {},
-            selected: true,
-          ),
+          // ListTile(
+          //   leading: const Icon(Icons.color_lens),
+          //   title: const Text('Select Theme'),
+          //   onTap: () {},
+          //   selected: true,
+          // ),
         ],
       ),
     );

@@ -264,15 +264,6 @@ class _MyHomeState extends State<MyHome> {
       ];
     }
 
-    // create some values
-    Color pickerColor = Color(0xff443a49);
-    Color currentColor = Color(0xff443a49);
-
-// ValueChanged<Color> callback
-    void changeColor(Color color) {
-      setState(() => pickerColor = color);
-    }
-
     return Scaffold(
       appBar: appBar,
       drawer: const MyDrawer(),
