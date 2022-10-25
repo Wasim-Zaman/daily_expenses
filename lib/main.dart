@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import './widgets/transaction_list.dart';
 import './widgets/new_transaction.dart';
 import './widgets/chart.dart';
+import './widgets/drawer.dart';
 import './model/transaction.dart';
 import './model/theme_data.dart';
 
@@ -274,7 +275,7 @@ class _MyHomeState extends State<MyHome> {
 
     return Scaffold(
       appBar: appBar,
-      drawer: Drawer(),
+      drawer: const MyDrawer(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () => _startAddingTransactions(context),

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class Drawer extends StatelessWidget {
-  const Drawer({
+class MyDrawer extends StatelessWidget {
+  const MyDrawer({
     Key? key,
-    required ListView child,
   }) : super(key: key);
 
   @override
