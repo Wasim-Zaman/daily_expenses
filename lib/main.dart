@@ -1,13 +1,14 @@
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:flutter/services.dart';
 
 import './widgets/transaction_list.dart';
 import './widgets/new_transaction.dart';
-import './widgets/chart.dart';
-import './widgets/drawer.dart';
 import './model/transaction.dart';
 import './model/theme_data.dart';
+import './widgets/drawer.dart';
+import './widgets/chart.dart';
 
 void main() {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -24,11 +25,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Application',
-      home: const MyHome(),
       darkTheme: themeData(Colors.blueGrey, Colors.deepPurple),
       theme: themeData(Colors.purple, Colors.lightBlue),
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Application',
+      home: const MyZoomDrawer(),
+    );
+  }
+}
+
+class MyZoomDrawer extends StatelessWidget {
+  const MyZoomDrawer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ZoomDrawer(
+      mainScreen: const MyHome(),
+      menuScreen: const MyDrawer(),
+      showShadow: true,
+      angle: -2.5,
+      borderRadius: 36,
+      androidCloseOnBackTap: true,
+      clipMainScreen: true,
+      menuBackgroundColor: Theme.of(context).primaryColor,
     );
   }
 }
@@ -199,6 +220,14 @@ class _MyHomeState extends State<MyHome> {
       backgroundColor: Theme.of(context).primaryColor,
       centerTitle: true,
       shadowColor: Colors.black,
+      leading: IconButton(
+        onPressed: () {
+          ZoomDrawer.of(context)?.toggle(
+            forceToggle: true,
+          );
+        },
+        icon: const Icon(Icons.menu),
+      ),
       actions: [
         IconButton(
           onPressed: () => _startAddingTransactions(context),
@@ -266,7 +295,7 @@ class _MyHomeState extends State<MyHome> {
 
     return Scaffold(
       appBar: appBar,
-      drawer: const MyDrawer(),
+      // drawer: const MyDrawer(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () => _startAddingTransactions(context),

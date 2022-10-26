@@ -19,6 +19,12 @@ ThemeData themeData(
         fontWeight: FontWeight.bold,
         // color: Theme.of(context).primaryColorLight,
       ),
+      headline5: TextStyle(
+        fontFamily: 'Quicksand',
+        fontSize: 23,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
       button: TextStyle(
         color: Colors.white,
         // fontWeight: FontWeight.bold,
